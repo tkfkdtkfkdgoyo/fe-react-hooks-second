@@ -8,33 +8,53 @@ function TodoList() {
   useEffect(() => {
     const data = [
       // 이곳에 초기 렌더링 시 표시 될 '객체 형태의 할 일들'을 작성해주세요. (hint: 객체의 key는 id, text, completed 입니다.)
+      {id : 1,  text : "산책 하기", completed : false},
+      {id : 2, text : "멋사 과제", completed : true},
+      {id : 3, text : "야구 보기", completed : false}
     ];
     // 생성한 todo를 state의 상태 변수인 todos 에 저장해주세요
+    setTodos(data);
   }, []);
 
+
   useEffect(() => {
+    let n = 0;
+
+    for(let i = 0; i < todos.length; i++){
+      if(todos[i].completed === true){
+        n++;
+      }
+    }
+
+    setCount(n)
     // 이곳에 todos에 변화가 생길 때마다 완료한 할 일의 개수(count)를 'update' 하도록 하는 코드를 작성해주세요. (+ dependency array 에는 어떤 값이 들어가야 할까요?)
-  }, []);
+
+  }, [todos]); //todos가 변화하니깐 
 
   useEffect(() => {
+      if(count == todos.length){
+        alert ("오늘 할 일을 모두 완료하셨네요!") //return 안 써도 되는가?
+      }
     // 이곳에 count의 update를 감지하면서 모든 할 일 모두 완료했을 때 "오늘 할 일을 모두 완료하셨네요!"를 출력하는 알림창이 뜨도록 코드를 작성해주세요. (+ dependency array 에는 어떤 값이 들어가야 할까요?)
-  }, []);
+  }, [count]);
 
   const handleInput = (e) => {
+    setInputValue(e.target.value) //입력한 값을 받아오고 싶을 경우 value를 실행!
     // 이곳에 입력창에 입력한 값이 state의 상태 변수인 inputValue에 저장되도록 코드를 작성해주세요.
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTodo = {id: Date.now() /* 이곳에 새로운 todo의 text와 completed 속성을 설정하도록 코드를 작성해주세요 */};
-    setTodos(/* 이곳에 기존의 todos에 새로 생성된 newTodo를 추가하도록 하는 코드를 작성해주세요 (hint: 배열에서의 spread 연산자 활용) */);
+    const newTodo = {id: Date.now(), text : inputValue, completed : false /* 이곳에 새로운 todo의 text와 completed 속성을 설정하도록 코드를 작성해주세요 */}; //아직 완료 안 했으니 false로 completed 설정
+    setTodos([...todos, newTodo]/* 이곳에 기존의 todos에 새로 생성된 newTodo를 추가하도록 하는 코드를 작성해주세요 (hint: 배열에서의 spread 연산자 활용) */);
     setInputValue("");
-  };
+  ;}
 
   const handleTodo = (id) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
         return {
+          ...todo, completed : !todo.completed 
           /* 이곳에 기존의 todo의 객체 속성에서 completed 객체의 속성만 변경되도록 하는 코드를 작성해주세요 (hint: 객체에서의 spread 연산자 활용) */
         };
       }
