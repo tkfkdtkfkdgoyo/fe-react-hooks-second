@@ -18,7 +18,7 @@ function TodoList() {
 
 
   useEffect(() => {
-    let n = 0;
+    let n = 0; //n은 완료한 todos의 개수, i는 인덱스 번호를 담을 변수 
 
     for(let i = 0; i < todos.length; i++){
       if(todos[i].completed === true){
@@ -33,7 +33,7 @@ function TodoList() {
 
   useEffect(() => {
       if(count == todos.length){
-        alert ("오늘 할 일을 모두 완료하셨네요!") //return 안 써도 되는가?
+        alert ("오늘 할 일을 모두 완료하셨네요!")
       }
     // 이곳에 count의 update를 감지하면서 모든 할 일 모두 완료했을 때 "오늘 할 일을 모두 완료하셨네요!"를 출력하는 알림창이 뜨도록 코드를 작성해주세요. (+ dependency array 에는 어떤 값이 들어가야 할까요?)
   }, [count]);
@@ -63,6 +63,13 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
+  const handleDelete = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos)
+  } //id는 삭제하려는 고유한 값, updateTodos는 삭제 대상 항목이 제거된 새로운 배열
+
+
+
   return (
     <div className="todolist">
       <h1>Todo List</h1>
@@ -73,8 +80,7 @@ function TodoList() {
             <span onClick={() => handleTodo(todo.id)} style={{textDecoration: todo.completed ? "line-through" : "none"}}>
               {todo.text}
             </span>
-            {/* 어른 사자의 길을 수행 할 때 아래 코드의 주석을 풀어 handleDelete 함수를 정의해주시면 됩니다*/}
-            {/* <button>삭제</button> */}
+            <button onClick={() => handleDelete(todo.id)}>삭제</button>
           </li>
         ))}
       </ul>
